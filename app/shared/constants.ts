@@ -1,4 +1,4 @@
-export const FIREBASE_URL = "https://sas-quiz.firebaseio.com/";
+export const FIREBASE_URL = "https://advance-sas.firebaseio.com/";
 export const INTERSTITIAL_AD_ID = "ca-app-pub-9082814869788754/2619741367";
 export const BANNER_AD_ID = "ca-app-pub-9082814869788754/3753693786";
 export const REWARD_AD_ID = "ca-app-pub-9082814869788754/1020272169";
@@ -9,7 +9,7 @@ export const RESULT = "RESULT";
 export const MOCK = "MOCK";
 export const PASSING_PERCENTAGE = 70;
 export const VERSION_NUMBER: number = 11;
-export const AD_COUNT: number = 7;
+export const AD_COUNT: number = 10;
 export const CLEAR: boolean = false;
 export const VERSION: string = "VERSION";
 export const QUESTION_VERSION: string = "QUESTION_VERSION";

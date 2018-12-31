@@ -51,6 +51,7 @@ export class HttpService {
     findPremiumRange<T>(orderBy: string, startAt: number, endAt: number): Promise<T> {
         const url = constantsModule.FIREBASE_URL + "premium.json" + "?orderBy=\"" + orderBy
             + "\"&startAt=" + startAt + "&endAt=" + endAt;
+        console.log("url::", url);
 
         return httpModule.getJSON(url);
     }
