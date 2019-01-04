@@ -19,6 +19,14 @@ export class PersistenceService {
         this.resetMockExamStats();
     }
 
+    resetPracticeStats() {
+        appSettings.remove(PRACTICE_STATS);
+    }
+
+    resetMockExamStats(): void {
+        appSettings.remove(RESULT);
+    }
+
     readPracticeStats(): IPracticeStats {
         return appSettings.hasKey(PRACTICE_STATS) ? JSON.parse(appSettings.getString(PRACTICE_STATS))
             : {attempted: new Array<number>(), correct: new Array<number>()};
@@ -34,10 +42,6 @@ export class PersistenceService {
 
     addQuestions(key: string, questions: Array<IQuestion>) {
         appSettings.setString(key, JSON.stringify(questions));
-    }
-
-    addResult(results: Array<IResult>) {
-        appSettings.setString(RESULT, JSON.stringify(results));
     }
 
     getResult(): Array<IResult> {
@@ -65,16 +69,8 @@ export class PersistenceService {
         appSettings.setString(PRACTICE_STATS, JSON.stringify(practiceStats));
     }
 
-    resetMockExamStats(): void {
-        appSettings.remove(RESULT);
-    }
-
     isPremium(): boolean {
         return appSettings.hasKey(PREMIUM);
-    }
-
-    private resetPracticeStats() {
-        appSettings.remove(PRACTICE_STATS);
     }
 
     private readQuestions(key: string): Array<IQuestion> {
