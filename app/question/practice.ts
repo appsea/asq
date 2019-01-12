@@ -27,6 +27,7 @@ let explanationHeader: Label;
 let _page: any;
 let scrollView: ScrollView;
 let banner: any;
+let loaded: boolean = false;
 
 export function onPageLoaded(args: EventData): void {
     if (!isAndroid) {
@@ -39,6 +40,7 @@ export function resetBanner() {
     if (banner) {
         banner.height = "0";
     }
+    loaded = false;
 }
 
 /* ***********************************************************
@@ -125,10 +127,20 @@ export function next(): void {
     if (AdService.getInstance().showAd && !ConnectionService.getInstance().isConnected()) {
         dialogs.alert("Please connect to internet so that we can fetch next question for you!");
     } else {
+        console.log("Next.............");
         vm.next();
-        if (AdService.getInstance().showAd) {
-            banner.height = AdService.getInstance().getAdHeight() + "dpi";
-            AdService.getInstance().showSmartBanner();
+        if (AdService.getInstance().showAd && !loaded) {
+            AdService.getInstance().showSmartBanner().then(
+                () => {
+                    console.log("Ad Loaded");
+                    loaded = true;
+                    banner.height = AdService.getInstance().getAdHeight() + "dpi";
+                },
+                (error) => {
+                    console.log("Banner Error", error);
+                    resetBanner();
+                }
+            );
         }
         if (scrollView) {
             scrollView.scrollToVerticalOffset(0, false);
@@ -155,7 +167,7 @@ export function selectOption(args): void {
         vm.showAnswer();
         vm.selectOption(args);
         optionList.refresh();
-        moveToLast();
+        // moveToLast();
         vm.updatePracticeStats();
     }
 }
