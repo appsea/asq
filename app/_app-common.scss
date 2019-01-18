@@ -3,7 +3,7 @@
 
 // Font icon class
 .fa {
-    font-family: 'fa-solid-900', fontawesome-webfont;
+    font-family: 'fa-solid-900', "FontAwesome";
 }
 
 // Common page class
@@ -92,14 +92,21 @@ Label {
     margin-bottom: 5dpi;
 }
 
+.selected-menu {
+    background-color: #3A53FF;
+    color: brown;
+}
+
 .selected {
     background-color: #3A53FF;
     color: white;
+    border-radius: 8;
 }
 
 .not-selected {
-    background-color: white;
+    background-color: #f6f6f6;
     color: black;
+    border-radius: 8;
 }
 
 .margin {
@@ -116,19 +123,44 @@ Label {
     color: white;
 }
 
+@keyframes toBlue {
+    from { background-color: white; }
+    to { background-color: #3A53FF; }
+}
+
+@keyframes toRed {
+    from { background-color: white; }
+    to { background-color: #ed1b1f; }
+}
+
+
+@keyframes toGreen {
+    from { background-color: white; }
+    to { background-color: #07C65A; }
+}
+
 .correct {
-    background-color: #07C65A;
+    animation-name: toGreen;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+    animation-direction: alternate;
     color: white;
+    border-radius: 8;
 }
 
 .incorrect {
-    background-color: #ed1b1f;
+    animation-name: toRed;
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    animation-direction: alternate;
     color: white;
+    border-radius: 8;
 }
 
 .skipped {
     background-color: #4c8ec1;
     color: white;
+    border-radius: 8;
 }
 
 .tbd {
@@ -213,7 +245,6 @@ Label {
     font-size: 20;
     color: blue;
 }
-
 
 .total{
     font-size: 20;

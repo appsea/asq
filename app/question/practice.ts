@@ -1,23 +1,23 @@
-import { AndroidActivityBackPressedEventData, AndroidApplication } from "application";
-import { RadSideDrawer } from "nativescript-ui-sidedrawer";
-import { isAndroid, screen } from "platform";
-import { EventData, Observable } from "tns-core-modules/data/observable";
+import {AndroidActivityBackPressedEventData, AndroidApplication} from "application";
+import {RadSideDrawer} from "nativescript-ui-sidedrawer";
+import {isAndroid, screen} from "platform";
+import {EventData, Observable} from "tns-core-modules/data/observable";
 import * as ButtonModule from "tns-core-modules/ui/button";
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import { topmost } from "tns-core-modules/ui/frame";
-import { SwipeDirection } from "tns-core-modules/ui/gestures";
-import { Label } from "tns-core-modules/ui/label";
-import { NavigatedData, Page } from "tns-core-modules/ui/page";
-import { CreateViewEventData } from "tns-core-modules/ui/placeholder";
-import { Repeater } from "tns-core-modules/ui/repeater";
-import { ScrollView } from "tns-core-modules/ui/scroll-view";
-import { TextView } from "tns-core-modules/ui/text-view";
-import { AdService } from "~/services/ad.service";
-import { SettingsService } from "~/services/settings.service";
-import { ConnectionService } from "~/shared/connection.service";
-import { SelectedPageService } from "~/shared/selected-page-service";
+import {topmost} from "tns-core-modules/ui/frame";
+import {SwipeDirection} from "tns-core-modules/ui/gestures";
+import {Label} from "tns-core-modules/ui/label";
+import {NavigatedData, Page} from "tns-core-modules/ui/page";
+import {CreateViewEventData} from "tns-core-modules/ui/placeholder";
+import {Repeater} from "tns-core-modules/ui/repeater";
+import {ScrollView} from "tns-core-modules/ui/scroll-view";
+import {TextView} from "tns-core-modules/ui/text-view";
+import {AdService} from "~/services/ad.service";
+import {SettingsService} from "~/services/settings.service";
+import {ConnectionService} from "~/shared/connection.service";
+import {SelectedPageService} from "~/shared/selected-page-service";
 import * as constantsModule from "../shared/constants";
-import { QuestionViewModel } from "./question-view-model";
+import {QuestionViewModel} from "./question-view-model";
 
 let vm: QuestionViewModel;
 let optionList: Repeater;
@@ -59,20 +59,17 @@ export function onNavigatingTo(args) {
     page.on(AndroidApplication.activityBackPressedEvent, onActivityBackPressedEvent, this);
     banner = page.getViewById("banner");
     suggestionButton = page.getViewById("suggestionButton");
-    if (!SettingsService.route()) {
-        _page = page;
-        optionList = page.getViewById("optionList");
-        scrollView = page.getViewById("scrollView");
-        vm = new QuestionViewModel(constantsModule.PRACTICE);
-        page.bindingContext = vm;
-        SelectedPageService.getInstance().updateSelectedPage("practice");
-    } else {
-        explanationHeader = page.getViewById("explanationHeader");
-        defaultExplanation = page.getViewById("defaultExplanation");
-        explanationHeader.visibility = "hidden";
-        defaultExplanation.visibility = "hidden";
-        suggestionButton.visibility = "hidden";
-    }
+    _page = page;
+    optionList = page.getViewById("optionList");
+    scrollView = page.getViewById("scrollView");
+    vm = new QuestionViewModel(constantsModule.PRACTICE);
+    page.bindingContext = vm;
+    SelectedPageService.getInstance().updateSelectedPage("practice");
+    explanationHeader = page.getViewById("explanationHeader");
+    defaultExplanation = page.getViewById("defaultExplanation");
+    explanationHeader.visibility = "hidden";
+    defaultExplanation.visibility = "hidden";
+    suggestionButton.visibility = "hidden";
 }
 
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {
@@ -159,7 +156,7 @@ export function quit(): void {
 export function showAnswer(): void {
     vm.showAnswer();
     optionList.refresh();
-    moveToLast();
+    // moveToLast();
 }
 
 export function selectOption(args): void {

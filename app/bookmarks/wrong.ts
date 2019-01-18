@@ -140,12 +140,12 @@ export function next(): void {
 export function showAnswer(): void {
     vm.showAnswer();
     optionList.refresh();
-    moveToLast();
+    // moveToLast();
 }
 
 export function selectOption(args): void {
     vm.showAnswer();
     vm.selectOption(args);
     optionList.refresh();
-    moveToLast();
+    // moveToLast();
 }

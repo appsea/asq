@@ -58,12 +58,12 @@
         <ScrollView id="scrollView" onswipe="handleSwipe">
             <StackLayout class="margin" onswipe="handleSwipe">
                 <Label text="{{ question.description}}" textWrap="true" onswipe="handleSwipe"/>
-                <Repeater items="{{ options }}" row="1" id="optionList" onswipe="handleSwipe">
+                <Repeater items="{{ options }}" row="1" id="optionList" onswipe="handleSwipe" class="m-t-10">
                     <Repeater.itemTemplate>
-                        <GridLayout columns="auto,*" tap="selectOption" class="{{ selected ? 'selected' : 'not-selected' }}">
+                        <GridLayout columns="auto,*" tap="selectOption" class="{{ selected ? 'selected m-5' : 'not-selected m-5' }}">
                             <Label col="0" text="{{ tag + '. ' }}"
                                    textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
-                                   onswipe="handleSwipe" class="{{ selected ? 'selected' : 'not-selected' }}"/>
+                                   onswipe="handleSwipe" class="{{ selected ? 'selected m-l-2' : 'not-selected m-l-2' }}"/>
                             <Label col="1" text="{{ description }}"
                                    textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
                                    onswipe="handleSwipe" class="{{ selected ? 'selected' : 'not-selected' }}"/>
