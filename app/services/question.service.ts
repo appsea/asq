@@ -72,6 +72,13 @@ export class QuestionService {
         HttpService.getInstance().httpPost(url, questionWithDate);
     }
 
+    updateCorrectOption(question: IQuestion) {
+        console.log("updateCorrectOption", question);
+        const url = constantsModule.FIREBASE_URL + "updateOption.json";
+        const questionWithDate = {question, date: QuizUtil.getDate()};
+        HttpService.getInstance().httpPost(url, questionWithDate);
+    }
+
     getFirebaseQuestion(): Promise<IQuestion> {
         this.checkQuestionUpdate();
         if (this.questions.length !== 0) {
@@ -209,7 +216,7 @@ export class QuestionService {
     private readFromQuestions(): Promise<IQuestion> {
         return new Promise<IQuestion>((resolve, reject) => {
             const randomNumber = this.getRandomNumber(this.questions.length);
-            const question = this.questions[randomNumber];
+            const question = JSON.parse(JSON.stringify(this.questions[randomNumber]));
             question.flagged = this.isFlagged(question);
             resolve(question);
         });
