@@ -35,11 +35,11 @@
     <DockLayout stretchLastChild="true">
         <StackLayout dock="top">
         </StackLayout>
-        <StackLayout dock="bottom" class="layout-class" horizontalAlignment="center" orientation="horizontal">
-            <Button class="all t-12" text="All" tap="all" width="20%" margin="2dpi" />
-            <Button class="correct t-12" text="Correct" tap="correct" width="25%" margin="2dpi" />
-            <Button class="incorrect t-12" text="Wrong" tap="incorrect" width="25%" margin="2dpi" />
-            <Button class="skipped t-12" text="Skipped" tap="skipped" width="30%" margin="2dpi" />
+        <StackLayout dock="bottom" class="layout-class m-x-2" horizontalAlignment="center" orientation="horizontal">
+            <Button class="all t-12 btn btn-primary btn-rounded-lg" text="All" tap="all" width="20%" margin="2dpi" />
+            <Button class="correct t-12 btn btn-primary btn-rounded-lg" text="Correct" tap="correct" width="25%" margin="2dpi" />
+            <Button class="incorrect t-12 btn btn-primary btn-rounded-lg" text="Wrong" tap="incorrect" width="25%" margin="2dpi" />
+            <Button class="skipped t-12 btn btn-primary btn-rounded-lg" text="Skipped" tap="skipped" width="30%" margin="2dpi" />
         </StackLayout>
         <StackLayout visibility="{{ questions.length === 0 ? 'visible' : 'collapsed' }}" class="margin" horizontalAlignment="center">
             <Label textWrap="true" textAlignment="center" marginTop="20dpi">
@@ -72,9 +72,9 @@
                         <Label text="{{ description }}" textWrap="true"/>
                         <Repeater items="{{ options }}" row="1">
                             <Repeater.itemTemplate>
-                                <GridLayout columns="auto,*" class="{{ (!selected && !correct)? 'not-selected': (skipped && correct)? 'skipped':(selected && !correct)?'incorrect': 'correct'}}">
+                                <GridLayout columns="auto,*" class="{{ (!selected && !correct)? 'not-selected m-y-5': (skipped && correct)? 'skipped m-y-5':(selected && !correct)?'incorrect m-y-5': 'correct m-y-5'}}">
                                     <Label col="0" text="{{ tag + '. ' }}"
-                                           class="{{ (!selected && !correct)? 'not-selected': (skipped && correct)? 'skipped':(selected && !correct)?'incorrect': 'correct'}}"
+                                           class="{{ (!selected && !correct)? 'not-selected m-l-2': (skipped && correct)? 'skipped m-l-2':(selected && !correct)?'incorrect m-l-2': 'correct m-l-2'}}"
                                            textWrap="true" marginTop="10dpi" marginBottom="10dpi" />
                                     <Label col="1" text="{{ description }}"
                                            class="{{ (!selected && !correct)? 'not-selected': (skipped && correct)? 'skipped':(selected && !correct)?'incorrect': 'correct'}}"
