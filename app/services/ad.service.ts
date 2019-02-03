@@ -23,7 +23,7 @@ export class AdService {
         this._showAd = showAd;
     }
 
-    static _testing = false;
+    static _testing = true;
 
     static getInstance(): AdService {
         return AdService._instance;
@@ -158,7 +158,7 @@ export class AdService {
                 // top: 10
                 bottom: isIOS ? 50 : 0
             },
-            keywords: ["game", "education"]
+            keywords: ["games", "education"]
         });
     }
 }

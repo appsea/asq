@@ -24,7 +24,7 @@ export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEvent
     args.cancel = true;
 }
 
-export function onNavigatingTo(args: NavigatedData): void {
+export function onNavigatingTo(args: NavigatedData) {
     page = <Page>args.object;
     vm = new ProgressViewModel();
     page.bindingContext = vm;

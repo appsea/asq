@@ -27,7 +27,7 @@ export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEvent
     args.cancel = true;
 }
 
-export function onNavigatingTo(args: NavigatedData): void {
+export function onNavigatingTo(args: NavigatedData) {
     page = <Page>args.object;
     list = page.getViewById("listView");
     const state: IState = <IState> page.navigationContext;

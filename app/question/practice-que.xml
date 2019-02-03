@@ -1,25 +1,39 @@
 <Page
-    class="page"
-    navigatingTo="onNavigatingTo"  
-    xmlns="http://schemas.nativescript.org/tns.xsd">
+        class="page"
+        loaded="onPageLoaded"
+        navigatingTo="onNavigatingTo"
+        xmlns="http://schemas.nativescript.org/tns.xsd">
 
     <ActionBar class="action-bar">
-        <!-- 
+        <!--
         Use the NavigationButton as a side-drawer button in Android
         because ActionItems are shown on the right side of the ActionBar
         -->
         <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
-        <!-- 
+        <!--
         Use the ActionItem for IOS with position set to left. Using the
         NavigationButton as a side-drawer button in iOS is not possible,
         because its function is to always navigate back in the application.
         -->
-        <ActionItem icon="res://navigation/menu" 
-            android:visibility="collapsed" 
-            tap="onDrawerButtonTap"
-            ios.position="left">
+        <ActionItem tap="onDrawerButtonTap">
+            <ActionItem.actionView>
+                <StackLayout orientation="horizontal">
+                    <Label class="action-bar-title fa" text="&#xf044;" tap="goToEditPage"></Label>
+                    <Label class="{{ (question.flagged)? 'action-bar-title fa flagged': 'action-bar-title fa' }}" text="&#xf024;" tap="flag"></Label>
+                </StackLayout>
+            </ActionItem.actionView>
         </ActionItem>
-        <Label class="action-bar-title" text="Question"></Label>
+
+        <Label class="action-bar-title">
+            <label.formattedText>
+                <formattedString>
+                    <formattedString.spans>
+                        <span text="Question "/>
+                        <span text="{{ questionNumber }}"/>
+                    </formattedString.spans>
+                </formattedString>
+            </label.formattedText>
+        </Label>
     </ActionBar>
 
     <DockLayout stretchLastChild="true">
@@ -28,7 +42,8 @@
         <StackLayout dock="bottom">
             <StackLayout class="margin" orientation="horizontal" horizontalAlignment="center"  visibility="{{ question? 'visible': 'collapsed' }}">
                 <Button class="btn btn-primary btn-rounded-lg" text="<<" tap="previous" margin="10dpi" width="30%"/>
-                <Button class="btn btn-primary btn-rounded-lg" text=">>" tap="next" margin="10dpi" width="30%"/>
+                <Button class="btn btn-primary btn-rounded-lg" text="Ad" visibility="{{ showAdOnNext ? 'visible' : 'collapsed' }}" tap="next" margin="10dpi" width="30%"/>
+                <Button class="btn btn-primary btn-rounded-lg" text=">>" visibility="{{ showAdOnNext ? 'collapsed' : 'visible' }}" tap="next" margin="10dpi" width="30%"/>
                 <Button class="btn btn-primary btn-rounded-lg"
                         visibility="{{ question.show ? 'collapsed' : 'visible' }}" text="Answer" tap="showAnswer"
                         margin="10dpi" width="30%"/>
@@ -39,19 +54,21 @@
             <StackLayout id="banner">
             </StackLayout>
         </StackLayout>
-        <ScrollView id="scrollView" onswipe="handleSwipe">
+        <ScrollView id="scrollView" onswipe="handleSwipe" scrollBarIndicatorVisible="true">
             <StackLayout class="margin" onswipe="handleSwipe">
                 <Label text="{{ question.description }}" textWrap="true" onswipe="handleSwipe"/>
-                <Repeater items="{{ options }}" row="1" id="optionList" onswipe="handleSwipe">
+                <Repeater items="{{ options }}" row="1" id="optionList" onswipe="handleSwipe" class="m-t-10">
                     <Repeater.itemTemplate>
-                        <StackLayout
-                                class="{{ (show && correct)? 'correct' : (show && selected && !correct)? 'incorrect': 'not-selected' }}"
-                                tap="selectOption" onswipe="handleSwipe">
-                            <Label text="{{ description}}"
+                        <GridLayout columns="auto,*" class="{{ (show && correct)? 'correct m-y-5' : (show && selected && !correct)? 'incorrect m-y-5': 'not-selected m-y-5' }}">
+                            <Label col="0" text="{{ tag + '. ' }}"
+                                   class="{{ (show && correct)? 'correct m-l-2' : (show && selected && !correct)? 'incorrect m-l-2': 'not-selected m-l-2' }}"
+                                   textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
+                                   onswipe="handleSwipe"/>
+                            <Label col="1" text="{{ description }}"
                                    class="{{ (show && correct)? 'correct' : (show && selected && !correct)? 'incorrect': 'not-selected' }}"
                                    textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
                                    onswipe="handleSwipe"/>
-                        </StackLayout>
+                        </GridLayout>
                     </Repeater.itemTemplate>
                 </Repeater>
                 <Label id="explanationHeader" text="Explanation: " marginTop="20dpi"

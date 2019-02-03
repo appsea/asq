@@ -1,6 +1,5 @@
 <Page
         class="page"
-        loaded="onPageLoaded"
         navigatingTo="onNavigatingTo"
         xmlns="http://schemas.nativescript.org/tns.xsd">
 
@@ -15,74 +14,80 @@
         NavigationButton as a side-drawer button in iOS is not possible,
         because its function is to always navigate back in the application.
         -->
-        <ActionItem tap="onDrawerButtonTap">
-            <ActionItem.actionView>
-                <StackLayout orientation="horizontal">
-                    <Label class="action-bar-title fa" text="&#xf044;" tap="goToEditPage"></Label>
-                    <Label class="{{ (question.flagged)? 'action-bar-title fa flagged': 'action-bar-title fa' }}" text="&#xf024;" tap="flag"></Label>
-                </StackLayout>
-            </ActionItem.actionView>
+        <ActionItem icon="res://navigation/menu"
+                    android:visibility="collapsed"
+                    tap="onDrawerButtonTap"
+                    ios.position="left">
         </ActionItem>
-
-        <Label class="action-bar-title">
-            <label.formattedText>
-                <formattedString>
-                    <formattedString.spans>
-                        <span text="Question "/>
-                        <span text="{{ questionNumber }}"/>
-                    </formattedString.spans>
-                </formattedString>
-            </label.formattedText>
-        </Label>
+        <Label class="action-bar-title" text="Practice"/>
     </ActionBar>
 
-    <DockLayout stretchLastChild="true">
-        <StackLayout dock="top" height="20dpi">
+    <ScrollView class="input-field page page-login" horizontalAlignment="center" width="100%" backgroundImage="res://mesh">
+        <StackLayout orientation="vertical" horizontalAlignment="center"
+                     style="text-align:center">
+            <StackLayout backgroundColor="white" margin="10" borderRadius="10" tap="calculate">
+                <Label class="h3 text-center p-10 progress-heading" text="Question Bank"
+                       textWrap="true" />
+                <Progress value="{{questionSize}}" maxValue="{{serverQuestionSize}}"
+                          width="80%" loaded="onProgressLoaded" color="#07C65A"
+                          class="m-t-15" />
+                <Label class="attempted m-10" color="blue" horizontalAlignment="center">
+                    <label.formattedText>
+                        <formattedString>
+                            <formattedString.spans>
+                                <span text="{{questionSize}}" class="attempted" />
+                                <span text=" of " class="total" />
+                                <span text="{{serverQuestionSize}}" class="total" />
+                                <span text=" Accessible" class="total" />
+                            </formattedString.spans>
+                        </formattedString>
+                    </label.formattedText>
+                </Label>
+                <StackLayout class="hr-light"  visibility="{{ isPremium ? 'collapsed' : 'visible' }}"/>
+                <Label class="m-5 t-16" color="blue" horizontalAlignment="center" text="Free Questions Loading..." visibility="{{ isPremium || allQuestionsLoaded || adLoaded || error ? 'collapsed' : 'visible' }}" />
+                <StackLayout orientation="horizontal" horizontalAlignment="center" class="m-5" visibility="{{ isPremium ? 'collapsed' : 'visible' }}">
+                    <Button class="btn btn-primary btn-rounded-sm fa" text="&#xf43f;  Premium"
+                            tap="{{ goPremium }}" width="48%"/>
+                    <Button class="btn btn-primary btn-rounded-sm fa" text="{{ '&#xf03d;  Free +' + rewards + ' Que'}}"
+                            tap="{{ topUpRewards }}" visibility="{{ !allQuestionsLoaded && adLoaded && !error ? 'visible' : 'collapsed' }}" width="48%"/>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout backgroundColor="white" margin="10" borderRadius="10">
+                <Label class="h3 text-center p-10 progress-heading" text="Practice Stats"
+                       textWrap="true" />
+                <Progress value="{{ ps.attempted.length }}" maxValue="{{ questionSize }}"
+                          width="80%" loaded="onProgressLoaded" color="#07C65A"
+                          class="m-t-15" />
+                <Label class="attempted m-10" horizontalAlignment="center">
+                    <label.formattedText>
+                        <formattedString>
+                            <formattedString.spans>
+                                <span text="{{ ps.attempted.length }}" class="attempted" />
+                                <span text=" of " class="total" />
+                                <span text="{{ questionSize }}" class="total" />
+                                <span text="  Practiced" class="total" />
+                            </formattedString.spans>
+                        </formattedString>
+                    </label.formattedText>
+                </Label>
+                <StackLayout class="hr-light" />
+                <GridLayout columns="*,auto, *" rows="auto, auto"
+                            borderRadius="10">
+                    <FlexboxLayout row="0" col="0" flexDirection="column" style="padding: 15 10" horizontalAlignment="center">
+                        <Label text="{{practiceCoverage + '%'}}" class="attempted"
+                               horizontalAlignment="right" />
+                        <Label text="Complete" class="type" horizontalAlignment="center" />
+                    </FlexboxLayout>
+                    <Label class="v-line" row="0" col="1" />
+                    <FlexboxLayout row="0" col="2" flexDirection="column"
+                                   style="padding: 15 10" horizontalAlignment="center">
+                        <Label text="{{practiceAccuracy + '%'}}" class="attempted" />
+                        <Label text="Accuracy" class="type"
+                               horizontalAlignment="center" />
+                    </FlexboxLayout>
+                </GridLayout>
+            </StackLayout>
+            <Button text="Start Practice!!" class="progress-heading btn m-t-10" tap="startPractice"/>
         </StackLayout>
-        <StackLayout dock="bottom">
-            <StackLayout class="margin" orientation="horizontal" horizontalAlignment="center"  visibility="{{ question? 'visible': 'collapsed' }}">
-                <Button class="btn btn-primary btn-rounded-lg" text="<<" tap="previous" margin="10dpi" width="30%"/>
-                <Button class="btn btn-primary btn-rounded-lg" text="Ad" visibility="{{ showAdOnNext ? 'visible' : 'collapsed' }}" tap="next" margin="10dpi" width="30%"/>
-                <Button class="btn btn-primary btn-rounded-lg" text=">>" visibility="{{ showAdOnNext ? 'collapsed' : 'visible' }}" tap="next" margin="10dpi" width="30%"/>
-                <Button class="btn btn-primary btn-rounded-lg"
-                        visibility="{{ question.show ? 'collapsed' : 'visible' }}" text="Answer" tap="showAnswer"
-                        margin="10dpi" width="30%"/>
-                <Button class="btn btn-primary btn-rounded-lg"
-                        visibility="{{ question.show ? 'visible' : 'collapsed' }}" text="Explain" tap="moveToLast"
-                        margin="10dpi" width="30%"/>
-            </StackLayout>
-            <StackLayout id="banner">
-            </StackLayout>
-        </StackLayout>
-        <ScrollView id="scrollView" onswipe="handleSwipe" scrollBarIndicatorVisible="true">
-            <StackLayout class="margin" onswipe="handleSwipe">
-                <Label text="{{ question.description }}" textWrap="true" onswipe="handleSwipe"/>
-                <Repeater items="{{ options }}" row="1" id="optionList" onswipe="handleSwipe" class="m-t-10">
-                    <Repeater.itemTemplate>
-                        <GridLayout columns="auto,*" class="{{ (show && correct)? 'correct m-y-5' : (show && selected && !correct)? 'incorrect m-y-5': 'not-selected m-y-5' }}">
-                            <Label col="0" text="{{ tag + '. ' }}"
-                                   class="{{ (show && correct)? 'correct m-l-2' : (show && selected && !correct)? 'incorrect m-l-2': 'not-selected m-l-2' }}"
-                                   textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
-                                   onswipe="handleSwipe"/>
-                            <Label col="1" text="{{ description }}"
-                                   class="{{ (show && correct)? 'correct' : (show && selected && !correct)? 'incorrect': 'not-selected' }}"
-                                   textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
-                                   onswipe="handleSwipe"/>
-                        </GridLayout>
-                    </Repeater.itemTemplate>
-                </Repeater>
-                <Label id="explanationHeader" text="Explanation: " marginTop="20dpi"
-                       visibility="{{ question && question.show ? 'visible' : 'collapsed' }}" style="font-weight: bold"
-                       textWrap="true" onswipe="handleSwipe"/>
-                <Label id="explanation" text="{{ question && question.explanation}}" marginBottom="5dpi" textWrap="true"
-                       onswipe="handleSwipe" visibility="{{ question.show ? 'visible' : 'collapsed' }}"/>
-                <Label id="defaultExplanation"
-                       text="Explanation Coming Soon. Feel free to update it yourself by clicking on following button:)"
-                       marginBottom="5dpi" textWrap="true" onswipe="handleSwipe"
-                       visibility="{{ question && question.show && !question.explanation ? 'visible' : 'collapsed' }}"/>
-                <Button id="suggestionButton" text="Improve Question" class="btn btn-primary" tap="goToEditPage"
-                        visibility="{{ question && question.show ? 'visible' : 'collapsed' }}"/>
-            </StackLayout>
-        </ScrollView>
-    </DockLayout>
+    </ScrollView>
 </Page>

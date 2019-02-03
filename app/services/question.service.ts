@@ -127,13 +127,19 @@ export class QuestionService {
     }
 
     findPremiumRange(startAt: number, endAt: number): Promise<void> {
-        return HttpService.getInstance().findPremiumRange<Array<IQuestion>>("number", startAt, endAt)
-            .then((map: any) => {
-                const newQuestions: Array<IQuestion> = Object.keys(map).map((key) => map[key]);
-                let questions: Array<IQuestion> = this.readQuestions();
-                questions = questions.concat(newQuestions);
-                this.saveQuestions(questions);
-            }).catch((e) => console.error("Error Loading Premium Range Questions...", e));
+        return new Promise((resolve, reject) => {
+            HttpService.getInstance().findPremiumRange<Array<IQuestion>>("number", startAt, endAt)
+                .then((map: any) => {
+                    const newQuestions: Array<IQuestion> = Object.keys(map).map((key) => map[key]);
+                    let questions: Array<IQuestion> = this.readQuestions();
+                    questions = questions.concat(newQuestions);
+                    this.saveQuestions(questions);
+                    resolve();
+                }).catch((e) => {
+                   console.error("Error Loading Premium Range Questions...", e);
+                   reject(e);
+            });
+        });
     }
 
     saveQuestions(questions: Array<IQuestion>): void {
@@ -181,6 +187,21 @@ export class QuestionService {
             : alreadyAsked > 433;
     }
 
+    checkQuestionUpdate(): void {
+        this._checked = false;
+        if (!this._checked) {
+            HttpService.getInstance().findLatestQuestionVersion().then((latestQuestionVersion: string) => {
+                if (this.readQuestionVersion() < Number(latestQuestionVersion)) {
+                // if (-1 < Number(latestQuestionVersion)) {
+                    this.readAllQuestions(Number(latestQuestionVersion));
+                    this.saveQuestionVersion(Number(latestQuestionVersion));
+                }
+            });
+            this.checkForApplicationUpdate();
+            this._checked = true;
+        }
+    }
+
     private containsQuestion(search: IQuestion, questions: Array<IQuestion>): boolean {
         let contains = false;
         questions.forEach((question) => {
@@ -196,21 +217,6 @@ export class QuestionService {
         const randomNumber = Math.floor(Math.random() * (max));
 
         return randomNumber;
-    }
-
-    private checkQuestionUpdate(): void {
-        this._checked = false;
-        if (!this._checked) {
-            HttpService.getInstance().findLatestQuestionVersion().then((latestQuestionVersion: string) => {
-                if (this.readQuestionVersion() < Number(latestQuestionVersion)) {
-                // if (-1 < Number(latestQuestionVersion)) {
-                    this.readAllQuestions(Number(latestQuestionVersion));
-                    this.saveQuestionVersion(Number(latestQuestionVersion));
-                }
-            });
-            this.checkForApplicationUpdate();
-            this._checked = true;
-        }
     }
 
     private readFromQuestions(): Promise<IQuestion> {
