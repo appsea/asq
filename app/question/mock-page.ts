@@ -24,7 +24,7 @@ export function onPageLoaded(args: EventData): void {
 }
 
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {
-    navigationModule.toPage("question/practice");
+    navigationModule.toPage("question/practice-page");
     args.cancel = true;
 }
 
@@ -35,9 +35,9 @@ export function onNavigatingTo(args: NavigatedData) {
     * page in the same data state that he left it in before navigating.
     *************************************************************/
     const page = <Page>args.object;
-    vm = new SummaryViewModel();
+    vm = SummaryViewModel.getInstance();
     page.bindingContext = vm;
-    SelectedPageService.getInstance().updateSelectedPage("stats");
+    SelectedPageService.getInstance().updateSelectedPage("mock");
 }
 
 export function onDrawerButtonTap(args: EventData) {
@@ -62,17 +62,16 @@ export function onProgressLoaded(args: EventData) {
         const transform = CGAffineTransformMakeScale(1.0, 5.0);
         progress.ios.transform = transform; // progress.ios === UIProgressView
     }
-
 }
 
 export function showProgress() {
-    navigationModule.toPage("stats/progress");
+    navigationModule.toPage("stats/progress-page");
 }
 
 export function calculate() {
     vm.calculate();
 }
 
-export function resetAllStats() {
-    vm.resetAllStats();
+export function startTest() {
+    navigationModule.toPage("question/mock-que-page");
 }

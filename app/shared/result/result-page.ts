@@ -26,7 +26,7 @@ export function onPageLoaded(args: EventData): void {
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {
     dialogs.confirm("Do you want to start new exam?").then((proceed) => {
         if (proceed) {
-            navigationModule.toPage("question/" + state.mode.toLowerCase());
+            navigationModule.toPage("question/" + state.mode.toLowerCase() + "-page");
         }
     });
     args.cancel = true;

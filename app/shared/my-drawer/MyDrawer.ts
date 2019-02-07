@@ -32,7 +32,7 @@ export function onNavigationItemTap(args: EventData): void {
     const component = <GridLayout>args.object;
     const componentRoute = component.get("route");
     SettingsService.getInstance().saveRoute(componentRoute);
-
+    console.log("componentRoute", componentRoute);
     topmost().navigate({
         moduleName: componentRoute,
         transition: {

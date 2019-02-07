@@ -192,9 +192,12 @@ export class QuestionService {
         if (!this._checked) {
             HttpService.getInstance().findLatestQuestionVersion().then((latestQuestionVersion: string) => {
                 if (this.readQuestionVersion() < Number(latestQuestionVersion)) {
-                // if (-1 < Number(latestQuestionVersion)) {
                     this.readAllQuestions(Number(latestQuestionVersion));
                     this.saveQuestionVersion(Number(latestQuestionVersion));
+                }
+            }).catch((err) => {
+                if (!PersistenceService.getInstance().isPremium()) {
+                    dialogs.alert("Please connect to internet so that we can fetch next question for you!");
                 }
             });
             this.checkForApplicationUpdate();

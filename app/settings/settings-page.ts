@@ -22,7 +22,7 @@ export function onPageLoaded(args: EventData): void {
 }
 
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {
-    navigationModule.toPage("question/practice");
+    navigationModule.toPage("question/practice-page");
     args.cancel = true;
 }
 

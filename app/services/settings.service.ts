@@ -115,7 +115,7 @@ export class SettingsService {
             return appSettings.getString(constantsModule.ROUTE);
         }
 
-        return "question/practice";
+        return "question/practice-page";
     }
 
     private getDefaultQuick() {

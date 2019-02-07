@@ -24,7 +24,7 @@ export function onPageLoaded(args: EventData): void {
 }
 
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {
-    navigationModule.toPage("question/practice");
+    navigationModule.toPage("question/practice-page");
     args.cancel = true;
 }
 
@@ -35,9 +35,9 @@ export function onNavigatingTo(args: NavigatedData) {
     * page in the same data state that he left it in before navigating.
     *************************************************************/
     const page = <Page>args.object;
-    vm = new SummaryViewModel();
+    vm = SummaryViewModel.getInstance();
     page.bindingContext = vm;
-    SelectedPageService.getInstance().updateSelectedPage("quick");
+    SelectedPageService.getInstance().updateSelectedPage("practice");
 }
 
 export function onDrawerButtonTap(args: EventData) {
@@ -65,13 +65,13 @@ export function onProgressLoaded(args: EventData) {
 }
 
 export function showProgress() {
-    navigationModule.toPage("stats/progress");
+    navigationModule.toPage("stats/progress-page");
 }
 
 export function calculate() {
     vm.calculate();
 }
 
-export function startQuickTest() {
-    navigationModule.toPage("question/quick-que");
+export function startPractice() {
+    navigationModule.toPage("question/practice-que-page");
 }
