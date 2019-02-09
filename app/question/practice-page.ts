@@ -37,6 +37,7 @@ export function onNavigatingTo(args: NavigatedData) {
     const page = <Page>args.object;
     vm = SummaryViewModel.getInstance();
     page.bindingContext = vm;
+    vm.calculate();
     SelectedPageService.getInstance().updateSelectedPage("practice");
 }
 

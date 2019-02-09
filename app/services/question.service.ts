@@ -25,7 +25,7 @@ export class QuestionService {
     private static _instance: QuestionService = new QuestionService();
 
     private questions: Array<IQuestion> = [];
-    private _checked: boolean = false;
+    private _checked: boolean = true;
 
     getNextQuestion(): Promise<IQuestion> {
         return this.getFirebaseQuestion();
@@ -196,9 +196,7 @@ export class QuestionService {
                     this.saveQuestionVersion(Number(latestQuestionVersion));
                 }
             }).catch((err) => {
-                if (!PersistenceService.getInstance().isPremium()) {
-                    dialogs.alert("Please connect to internet so that we can fetch next question for you!");
-                }
+                console.log("Error finding latest version", err);
             });
             this.checkForApplicationUpdate();
             this._checked = true;

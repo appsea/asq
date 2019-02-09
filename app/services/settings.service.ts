@@ -89,13 +89,7 @@ export class SettingsService {
         if (constantsModule.CLEAR
             || !appSettings.hasKey(constantsModule.VERSION)
             || appSettings.getNumber(constantsModule.VERSION) < constantsModule.VERSION_NUMBER) {
-            this.clearCache(constantsModule.MAIN);
-            this.clearCache(constantsModule.QUICK);
-            this.clearCache(constantsModule.QUESTIONS);
-            this.clearCache(constantsModule.ROUTE);
-            this.clearCache(constantsModule.SETTINGS);
-            this.setting = this.getDefaultSetting();
-            appSettings.setString(constantsModule.SETTINGS, JSON.stringify(this.setting));
+            this.oneTimeCleanup();
         }
         this.clearCache(constantsModule.PRACTICE);
         appSettings.setNumber(constantsModule.VERSION, constantsModule.VERSION_NUMBER);
@@ -116,6 +110,20 @@ export class SettingsService {
         }
 
         return "question/practice-page";
+    }
+
+    private oneTimeCleanup() {
+        this.cleanUpState("practice");
+        this.cleanUpState("quick");
+        this.cleanUpState("mock");
+    }
+
+    private cleanUpState(mode: string) {
+        if (appSettings.hasKey(mode)) {
+            const state: IState = JSON.parse(appSettings.getString(mode));
+            state.mode = mode + "-page";
+            appSettings.setString(state.mode, JSON.stringify(state));
+        }
     }
 
     private getDefaultQuick() {
