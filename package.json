@@ -5,7 +5,7 @@
       "version": "5.1.0"
     },
     "tns-android": {
-      "version": "5.1.0"
+      "version": "5.2.0"
     }
   },
   "description": "Base Sas Quiz",
@@ -28,7 +28,7 @@
     "nativescript-ui-sidedrawer": "~5.0.0",
     "nativescript-unit-test-runner": "^0.3.4",
     "rxjs": "~6.2.0",
-    "tns-core-modules": "^5.1.1"
+    "tns-core-modules": "^5.2.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",

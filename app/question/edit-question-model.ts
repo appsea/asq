@@ -29,7 +29,6 @@ export class EditQuestionViewModel extends Observable {
 
     save() {
         if (this._question && this._question.description && this._question.explanation) {
-            console.log("this._question.description", this._question.description, "this._question.explanation", this._question.explanation);
             if (this._question.description !== "text" && this._question.explanation !== "text") {
                 if (JSON.stringify(this._question) !== this._originalQuestionString) {
                     if (QuestionUtil.isOptionUpdated(this._question)) {

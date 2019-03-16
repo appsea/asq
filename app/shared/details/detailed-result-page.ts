@@ -27,7 +27,7 @@ export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEvent
     args.cancel = true;
 }
 
-export function onNavigatingTo(args: NavigatedData) {
+export function onNavigatingTo(args: NavigatedData): void {
     page = <Page>args.object;
     list = page.getViewById("listView");
     const state: IState = <IState> page.navigationContext;
@@ -37,6 +37,15 @@ export function onNavigatingTo(args: NavigatedData) {
 
 export function onDrawerButtonTap(args: EventData) {
     QuestionViewModel.showDrawer();
+}
+
+export function toggleSearch(args: EventData) {
+    vm.toggleSearch();
+}
+
+export function clear() {
+
+    vm.clear();
 }
 
 export function all(): void {

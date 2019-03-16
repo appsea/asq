@@ -87,7 +87,7 @@ export class SummaryViewModel extends Observable {
     }
 
     get error() {
-        return this._error;
+        return !rewardModule.adLoaded();
     }
 
     private _checked: boolean = false;

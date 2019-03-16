@@ -32,7 +32,8 @@ export function onPageLoaded(args: EventData): void {
     if (!isAndroid) {
         return;
     }
-    resetBanner();
+    loaded = false;
+    setTimeout(() => showBannerAd(), 1000);
 }
 
 export function resetBanner() {
@@ -40,6 +41,7 @@ export function resetBanner() {
         banner.height = "0";
     }
     loaded = false;
+    AdService.getInstance().hideAd();
 }
 /* ***********************************************************
 * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -105,6 +107,20 @@ export function flag(): void {
     vm.flag();
 }
 
+function showBannerAd() {
+    if (AdService.getInstance().showAd && (!loaded || (banner && banner.height === "auto"))) {
+        AdService.getInstance().showSmartBanner().then(
+            () => {
+                loaded = true;
+                banner.height = AdService.getInstance().getAdHeight() + "dpi";
+            },
+            (error) => {
+                resetBanner();
+            }
+        );
+    }
+}
+
 export function previous(): void {
     if (!vm) {
         vm = new WrongQuestionModel();
@@ -120,17 +136,7 @@ export function next(): void {
         dialogs.alert("Please connect to internet so that we can fetch next question for you!");
     } else {
         vm.next();
-        if (AdService.getInstance().showAd && !loaded) {
-            AdService.getInstance().showSmartBanner().then(
-                () => {
-                    loaded = true;
-                    banner.height = AdService.getInstance().getAdHeight() + "dpi";
-                },
-                (error) => {
-                    resetBanner();
-                }
-            );
-        }
+        showBannerAd();
         if (scrollView) {
             scrollView.scrollToVerticalOffset(0, false);
         }

@@ -25,7 +25,8 @@ export function onPageLoaded(args: EventData): void {
     if (!isAndroid) {
         return;
     }
-    resetBanner();
+    loaded = false;
+    setTimeout(() => showBannerAd(), 1000);
 }
 
 export function resetBanner() {
@@ -33,6 +34,7 @@ export function resetBanner() {
         banner.height = "0";
     }
     loaded = false;
+    AdService.getInstance().hideAd();
 }
 
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {
@@ -40,7 +42,7 @@ export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEvent
     args.cancel = true;
 }
 
-export function onNavigatingFrom(args: NavigatedData) {
+export function onNavigatedFrom(args: NavigatedData) {
     vm.stopTimer();
 }
 
@@ -98,22 +100,27 @@ export function flag(): void {
     vm.flag();
 }
 
+function showBannerAd() {
+    if (AdService.getInstance().showAd && (!loaded || (banner && banner.height === "auto"))) {
+        AdService.getInstance().showSmartBanner().then(
+            () => {
+                loaded = true;
+                banner.height = AdService.getInstance().getAdHeight() + "dpi";
+            },
+            (error) => {
+                resetBanner();
+            }
+        );
+    }
+}
+
 export function next(): void {
     if (AdService.getInstance().showAd && !ConnectionService.getInstance().isConnected()) {
         dialogs.alert("Please connect to internet so that we can fetch next question for you!");
+        loaded = false;
     } else {
         vm.next();
-        if (AdService.getInstance().showAd && !loaded) {
-            AdService.getInstance().showSmartBanner().then(
-                () => {
-                    loaded = true;
-                    banner.height = AdService.getInstance().getAdHeight() + "dpi";
-                },
-                (error) => {
-                    resetBanner();
-                }
-            );
-        }
+        showBannerAd();
         if (scrollView) {
             scrollView.scrollToVerticalOffset(0, false);
         }

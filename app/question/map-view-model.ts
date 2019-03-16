@@ -51,7 +51,12 @@ export class MapViewModel extends Observable {
         if (this.items.length > args.index && this.items[args.index].status !== TBD) {
             this.state.questionNumber = item.value;
             SettingsService.getInstance().saveCache(this.state.mode, this.state);
-            navigationModule.toPage("question/" + this.state.mode.toLowerCase() + "-que-page");
+            let pageName: string = this.state.mode.toLowerCase();
+            if (pageName.endsWith("-page")) {
+                pageName = pageName.substr(0, pageName.indexOf("-page"));
+                pageName = pageName + "-que-page";
+            }
+            navigationModule.toPage("question/" + pageName);
         } else {
             Toast.makeText("Question " + item.value + " is yet to be asked." , "short").show();
         }

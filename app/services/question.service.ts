@@ -73,7 +73,6 @@ export class QuestionService {
     }
 
     updateCorrectOption(question: IQuestion) {
-        console.log("updateCorrectOption", question);
         const url = constantsModule.FIREBASE_URL + "updateOption.json";
         const questionWithDate = {question, date: QuizUtil.getDate()};
         HttpService.getInstance().httpPost(url, questionWithDate);

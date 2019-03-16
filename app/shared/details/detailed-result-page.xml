@@ -15,10 +15,12 @@
         NavigationButton as a side-drawer button in iOS is not possible,
         because its function is to always navigate back in the application.
         -->
-        <ActionItem icon="res://navigation/menu"
-                    android:visibility="collapsed"
-                    tap="onDrawerButtonTap"
-                    ios.position="left">
+        <ActionItem tap="onDrawerButtonTap">
+            <ActionItem.actionView>
+                <StackLayout orientation="horizontal">
+                    <Label class="action-bar-title fa m-r-4" text="&#xf002;" tap="toggleSearch"></Label>
+                </StackLayout>
+            </ActionItem.actionView>
         </ActionItem>
         <Label class="action-bar-title">
             <label.formattedText>
@@ -32,32 +34,14 @@
         </Label>
     </ActionBar>
 
-    <DockLayout stretchLastChild="true">
-        <StackLayout dock="top">
-        </StackLayout>
-        <StackLayout dock="bottom" class="layout-class m-x-2" horizontalAlignment="center" orientation="horizontal">
-            <Button class="all t-12 btn btn-primary btn-rounded-lg" text="All" tap="all" width="20%" margin="2dpi" />
-            <Button class="correct t-12 btn btn-primary btn-rounded-lg" text="Correct" tap="correct" width="25%" margin="2dpi" />
-            <Button class="incorrect t-12 btn btn-primary btn-rounded-lg" text="Wrong" tap="incorrect" width="25%" margin="2dpi" />
-            <Button class="skipped t-12 btn btn-primary btn-rounded-lg" text="Skipped" tap="skipped" width="30%" margin="2dpi" />
-        </StackLayout>
-        <StackLayout visibility="{{ questions.length === 0 ? 'visible' : 'collapsed' }}" class="margin" horizontalAlignment="center">
-            <Label textWrap="true" textAlignment="center" marginTop="20dpi">
-                <label.formattedText>
-                    <formattedString>
-                        <formattedString.spans>
-                            <span text="No Questions Were "/>
-                            <span text="{{ message }}"/>
-                        </formattedString.spans>
-                    </formattedString>
-                </label.formattedText>
-            </Label>
-        </StackLayout>
-        <StackLayout class="margin" visibility="{{ questions.length > 0 ? 'visible' : 'collapsed' }}">
-            <ListView id="listView" items="{{ questions }}" separatorColor="blue" itemTemplateSelector="$index">
+    <GridLayout rows="auto, *, auto">
+        <SearchBar row="0" hint="Search Questions..." id="searchBar" text="{{ searchPhrase }}" submit="{{ onSearchSubmit }}" clear="{{ clear }}" class="{{ searching ? 'searching search-bar' : 'not-searching search-bar' }}" visibility="{{ searching ? 'visible': 'collapsed'}}"/>
+        <GridLayout row="1" rows="auto, *">
+            <TextField height="0" loaded="{{ textFieldLoaded }}"></TextField>
+            <ListView  row="1" id="listView" class="margin" items="{{ questions }}" separatorColor="blue" itemTemplateSelector="$index">
                 <ListView.itemTemplate>
                     <StackLayout>
-                        <Label marginTop="20dpi" textAlignment="center" fontWeight="Bold">
+                        <Label marginTop="20dpi" textAlignment="center" class="font-weight-bold">
                             <Label.formattedText>
                                 <FormattedString>
                                     <FormattedString.spans>
@@ -70,24 +54,48 @@
                             </Label.formattedText>
                         </Label>
                         <Label text="{{ description }}" textWrap="true"/>
-                        <Repeater items="{{ options }}" row="1">
+
+                        <Repeater items="{{ options }}" row="1" visibility="{{ skipped ? 'collapsed' : 'visible' }}">
                             <Repeater.itemTemplate>
-                                <GridLayout columns="auto,*" class="{{ (!selected && !correct)? 'not-selected m-y-5': (skipped && correct)? 'skipped m-y-5':(selected && !correct)?'incorrect m-y-5': 'correct m-y-5'}}">
+                                <GridLayout columns="auto,*" class="{{ (!selected && !correct)? 'not-selected m-y-5': (selected && !correct)?'incorrect m-y-5': 'correct m-y-5'}}">
                                     <Label col="0" text="{{ tag + '. ' }}"
-                                           class="{{ (!selected && !correct)? 'not-selected m-l-2': (skipped && correct)? 'skipped m-l-2':(selected && !correct)?'incorrect m-l-2': 'correct m-l-2'}}"
-                                           textWrap="true" marginTop="10dpi" marginBottom="10dpi" />
+                                           class="{{ (!selected && !correct)? 'not-selected m-l-2 m-y-10': (selected && !correct)?'incorrect m-l-2 m-y-10': 'correct m-l-2 m-y-10'}}"
+                                           textWrap="true"/>
                                     <Label col="1" text="{{ description }}"
-                                           class="{{ (!selected && !correct)? 'not-selected': (skipped && correct)? 'skipped':(selected && !correct)?'incorrect': 'correct'}}"
-                                           textWrap="true" marginTop="10dpi" marginBottom="10dpi" />
+                                           class="{{ (!selected && !correct)? 'not-selected m-y-10': (selected && !correct)?'incorrect m-y-10': 'correct m-y-10'}}"
+                                           textWrap="true"/>
                                 </GridLayout>
                             </Repeater.itemTemplate>
                         </Repeater>
-
+                        <Repeater items="{{ options }}" row="1" visibility="{{ skipped && options[0].description ? 'visible' : 'collapsed' }}">
+                            <Repeater.itemTemplate>
+                                <GridLayout columns="auto,*" class="{{ correct ? 'skipped m-y-5': 'not-selected m-y-5'}}">
+                                    <Label col="0" text="{{ tag + '. ' }}" class="{{ correct ? 'skipped m-l-2 m-y-10': 'not-selected m-l-2 m-y-10'}}" textWrap="true" />
+                                    <Label col="1" text="{{ description }}" class="{{ correct ? 'skipped m-y-10': 'not-selected m-y-10'}}" textWrap="true"/>
+                                </GridLayout>
+                            </Repeater.itemTemplate>
+                        </Repeater>
                         <Label text="Explanation: " style="font-weight: bold; margin-top: 10dpi"  textWrap="true" visibility="{{ explanation ? 'visible' : 'collapsed' }}"/>
                         <Label text="{{ explanation }}" textWrap="true" visibility="{{ explanation ? 'visible' : 'collapsed' }}"/>
                     </StackLayout>
                 </ListView.itemTemplate>
             </ListView>
+            <Label textWrap="true" textAlignment="center" marginTop="20dpi" row="1" visibility="{{ questions.length === 0 ? 'visible' : 'collapsed' }}" class="margin" horizontalAlignment="center" verticalAlignment="center">
+                <label.formattedText>
+                    <formattedString>
+                        <formattedString.spans>
+                            <span text="No Questions "/>
+                            <span text="{{ searching? 'matched': 'were ' + message }}"/>
+                        </formattedString.spans>
+                    </formattedString>
+                </label.formattedText>
+            </Label>
+        </GridLayout>
+        <StackLayout row="2" class="layout-class m-x-2" horizontalAlignment="center" orientation="horizontal">
+            <Button class="all t-12" text="All" tap="all" width="20%" margin="2dpi" />
+            <Button class="correct t-12" text="Correct" tap="correct" width="25%" margin="2dpi" />
+            <Button class="incorrect t-12" text="Wrong" tap="incorrect" width="25%" margin="2dpi" />
+            <Button class="skipped t-12" text="Skipped" tap="skipped" width="30%" margin="2dpi" />
         </StackLayout>
-    </DockLayout>
+    </GridLayout>
 </Page>
