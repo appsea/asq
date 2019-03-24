@@ -1,7 +1,7 @@
-import { AndroidActivityBackPressedEventData, AndroidApplication } from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
-import { isAndroid } from "platform";
+import { AndroidActivityBackPressedEventData, AndroidApplication } from "tns-core-modules/application";
 import { EventData, Observable } from "tns-core-modules/data/observable";
+import { isAndroid } from "tns-core-modules/platform";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { topmost } from "tns-core-modules/ui/frame";
 import { StackLayout } from "tns-core-modules/ui/layouts/stack-layout";
@@ -20,7 +20,9 @@ export function onPageLoaded(args: EventData): void {
         return;
     }
     const pg = args.object;
-    pg.on(AndroidApplication.activityBackPressedEvent, onActivityBackPressedEvent, this);
+    if (pg != null && !pg.hasListeners(AndroidApplication.activityBackPressedEvent)) {
+        pg.on(AndroidApplication.activityBackPressedEvent, onActivityBackPressedEvent, this);
+    }
 }
 
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {

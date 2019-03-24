@@ -1,13 +1,13 @@
 /**
  * Created by rakesh on 15-Nov-2017.
  */
-import * as appSettings from "application-settings";
 import * as appVersion from "nativescript-appversion";
 import * as Toast from "nativescript-toast";
-import { isAndroid } from "platform";
+import * as appSettings from "tns-core-modules/application-settings";
 import { Observable } from "tns-core-modules/data/observable";
+import { isAndroid } from "tns-core-modules/platform";
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import * as utils from "utils/utils";
+import * as utils from "tns-core-modules/utils/utils";
 import { ConnectionService } from "~/shared/connection.service";
 import { IQuestion } from "~/shared/questions.model";
 import { QuizUtil } from "~/shared/quiz.util";
@@ -25,7 +25,7 @@ export class QuestionService {
     private static _instance: QuestionService = new QuestionService();
 
     private questions: Array<IQuestion> = [];
-    private _checked: boolean = false;
+    private _checked: boolean = true;
 
     getNextQuestion(): Promise<IQuestion> {
         return this.getFirebaseQuestion();
@@ -73,7 +73,6 @@ export class QuestionService {
     }
 
     updateCorrectOption(question: IQuestion) {
-        console.log("updateCorrectOption", question);
         const url = constantsModule.FIREBASE_URL + "updateOption.json";
         const questionWithDate = {question, date: QuizUtil.getDate()};
         HttpService.getInstance().httpPost(url, questionWithDate);
@@ -192,10 +191,11 @@ export class QuestionService {
         if (!this._checked) {
             HttpService.getInstance().findLatestQuestionVersion().then((latestQuestionVersion: string) => {
                 if (this.readQuestionVersion() < Number(latestQuestionVersion)) {
-                // if (-1 < Number(latestQuestionVersion)) {
                     this.readAllQuestions(Number(latestQuestionVersion));
                     this.saveQuestionVersion(Number(latestQuestionVersion));
                 }
+            }).catch((err) => {
+                console.log("Error finding latest version", err);
             });
             this.checkForApplicationUpdate();
             this._checked = true;

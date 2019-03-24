@@ -1,6 +1,6 @@
 import * as Toast from "nativescript-toast";
-import { setTimeout } from "timer";
 import { EventData, Observable } from "tns-core-modules/data/observable";
+import { setTimeout } from "tns-core-modules/timer";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { AdService } from "~/services/ad.service";
 import { HttpService } from "~/services/http.service";
@@ -14,6 +14,12 @@ import * as constantsModule from "../shared/constants";
 import * as navigationModule from "../shared/navigation";
 
 export class SummaryViewModel extends Observable {
+
+    static getInstance(): SummaryViewModel {
+        return SummaryViewModel._instance;
+    }
+
+    private static _instance: SummaryViewModel = new SummaryViewModel();
 
     get overall() {
         const results: Array<IResult> = PersistenceService.getInstance().getResult();
@@ -81,7 +87,7 @@ export class SummaryViewModel extends Observable {
     }
 
     get error() {
-        return this._error;
+        return !rewardModule.adLoaded();
     }
 
     private _checked: boolean = false;
@@ -99,7 +105,7 @@ export class SummaryViewModel extends Observable {
 
     private _allQuestionsLoaded: boolean = false;
 
-    constructor() {
+    private constructor() {
         super();
         this.load();
         this.preloadVideoAd();
@@ -128,7 +134,7 @@ export class SummaryViewModel extends Observable {
     }
 
     goPremium() {
-        navigationModule.toPage("premium/premium");
+        navigationModule.toPage("premium/premium-page");
     }
 
     preloadVideoAd() {
@@ -143,7 +149,7 @@ export class SummaryViewModel extends Observable {
             }, (reward) => {
                 QuestionService.getInstance().findPremiumRange((this._questionSize + 1),
                     (this._questionSize + this._rewards)).then(() => this.calculate(),
-                    (e) => console.log("Got error....", e));
+                    (e) => dialogs.alert("Something went wrong loading free questions. Please try again later!"));
             }, () => {
                 this.preloadVideoAd();
             }, () => {

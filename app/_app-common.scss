@@ -1,9 +1,9 @@
 // Place any CSS rules you want to apply on both iOS and Android here.
 // This is where the vast majority of your CSS code goes.
-
+@import 'app-variables';
 // Font icon class
 .fa {
-    font-family: 'fa-solid-900', "FontAwesome";
+    font-family: "fa-solid-900", "FontAwesome";
 }
 
 // Common page class
@@ -47,11 +47,6 @@
     horizontal-align: center;
 }
 
-.flexbox-item {
-    width: 95%;
-    text-align: center;
-}
-
 .page-login {
     background: #3C59FD no-repeat right bottom;
     background-size: contain;
@@ -67,77 +62,72 @@ ActionBar .action-bar-title {
 }
 
 ActionBar .flagged {
-    color: #22ff20;
+    color: $flag-color;
 }
 
 Label {
     color: black;
-    font-size: 18dpi;
+    font-size: 18;
 }
 
 .result-passed {
-    color: green;
-    font-size: 40dpi;
+    color: $passed;
+    font-size: 40;
 }
 
 .result-failed {
-    color: #ed1b1f;
-    font-size: 40dpi;
+    color: $incorrect;
+    font-size: 40;
 }
 
 .timer {
-    font-size: 20dpi;
-    color: #000099;
-    margin-top: 5dpi;
-    margin-bottom: 5dpi;
-}
-
-.selected-menu {
-    background-color: #3A53FF;
-    color: brown;
+    font-size: 20;
+    color: $timer-color;
+    margin-top: 5;
+    margin-bottom: 5;
 }
 
 .selected {
-    background-color: #3A53FF;
+    background-color: $selected-item;
     color: white;
     border-radius: 8;
 }
 
 .not-selected {
-    background-color: #f6f6f6;
+    background-color: $not-selected;
     color: black;
     border-radius: 8;
 }
 
 .margin {
-    margin-left: 15dpi;
-    margin-right: 15dpi;
+    margin-left: 15;
+    margin-right: 15;
 }
 
 .margin-all {
-    padding: 15dpi;
+    padding: 15;
 }
 
 .all {
-    background-color: #14418B;
+    background-color: $all;
     color: white;
     border-radius: 8;
 }
 
 @keyframes toBlue {
     from { background-color: white; }
-    to { background-color: #3A53FF; }
+    to { background-color: $selected-item; }
 }
 
 @keyframes toRed {
     from { background-color: white; }
-    to { background-color: #ed1b1f; }
+    to { background-color: $incorrect; }
 }
 
 
 @keyframes toGreen {
     from { background-color: white; }
-    to { background-color: #07C65A; }
+    to { background-color: $correct; }
 }
 
 .correct {
@@ -159,37 +149,38 @@ Label {
 }
 
 .skipped {
-    background-color: #4c8ec1;
+    background-color: $skipped;
     color: white;
     border-radius: 8;
 }
 
 .tbd {
-    background-color: #808080;
+    background-color: $tbd;
     color: white;
     border-radius: 8;
 }
 
 .drawer-header {
     color: white;
-    font-size: 20dpi;
+    font-size: 20;
+    horizontal-align: left;
     vertical-align: bottom;
 }
 
 .exam-date-failed {
-    color: #ed1b1f;
-    font-size: 12dpi;
-    margin-top: 5dpi;
-    margin-left: 5dpi;
-    margin-bottom: 5dpi;
+    color: $incorrect;
+    font-size: 12;
+    margin-top: 5;
+    margin-left: 5;
+    margin-bottom: 5;
 }
 
 .result-count-failed {
-    color: #ed1b1f;
-    font-size: 16dpi;
+    color: $incorrect;
+    font-size: 16;
     font-weight: bold;
-    margin-left: 5dpi;
-    margin-bottom: 10dpi;
+    margin-left: 5;
+    margin-bottom: 10;
 }
 
 .result-background {
@@ -197,31 +188,32 @@ Label {
 }
 
 .exam-date-passed {
-    color: green;
-    font-size: 11dpi;
-    margin-top: 5dpi;
-    margin-left: 5dpi;
-    margin-bottom: 5dpi;
+    color: $passed;
+    font-size: 11;
+    margin-top: 5;
+    margin-left: 5;
+    margin-bottom: 5;
 }
 
 .result-count-passed {
-    color: green;
-    font-size: 16dpi;
+    color: $passed;
+    font-size: 16;
     font-weight: bold;
-    margin-left: 5dpi;
-    margin-bottom: 10dpi;
+    margin-left: 5;
+    margin-bottom: 10;
 }
 
 .progress-result-passed {
-    color: green;
+    color: $passed;
     font-weight: bold;
-    font-size: 16dpi;
+    font-size: 16;
     font-weight: bold;
 }
 
 .progress-result-failed {
-    color: #ed1b1f;
-    font-size: 16dpi;
+    color: $incorrect;
+    font-weight: bold;
+    font-size: 16;
     font-weight: bold;
 }
 
