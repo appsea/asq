@@ -1,7 +1,7 @@
-import { android, AndroidActivityBackPressedEventData, AndroidApplication } from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
-import { isAndroid } from "platform";
+import { android, AndroidActivityBackPressedEventData, AndroidApplication } from "tns-core-modules/application";
 import { EventData } from "tns-core-modules/data/observable";
+import { isAndroid } from "tns-core-modules/platform";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { topmost } from "tns-core-modules/ui/frame";
 import { SwipeDirection } from "tns-core-modules/ui/gestures";
@@ -73,6 +73,8 @@ export function onNavigatingTo(args: NavigatedData) {
 export function handleSwipe(args) {
     if (args.direction === SwipeDirection.left) {
         next();
+    } else if (args.direction === SwipeDirection.right) {
+        previous();
     }
 }
 

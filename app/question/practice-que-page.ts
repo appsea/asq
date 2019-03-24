@@ -1,7 +1,7 @@
-import { AndroidActivityBackPressedEventData, AndroidApplication } from "application";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
-import { isAndroid, screen } from "platform";
+import { AndroidActivityBackPressedEventData, AndroidApplication } from "tns-core-modules/application";
 import { EventData, Observable } from "tns-core-modules/data/observable";
+import { isAndroid, screen } from "tns-core-modules/platform";
 import * as ButtonModule from "tns-core-modules/ui/button";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { topmost } from "tns-core-modules/ui/frame";
@@ -13,6 +13,7 @@ import { Repeater } from "tns-core-modules/ui/repeater";
 import { ScrollView } from "tns-core-modules/ui/scroll-view";
 import { TextView } from "tns-core-modules/ui/text-view";
 import { AdService } from "~/services/ad.service";
+import { PersistenceService } from "~/services/persistence.service";
 import { ConnectionService } from "~/shared/connection.service";
 import { SelectedPageService } from "~/shared/selected-page-service";
 import * as constantsModule from "../shared/constants";
@@ -90,6 +91,8 @@ export function onDrawerButtonTap(args: EventData) {
 export function handleSwipe(args) {
     if (args.direction === SwipeDirection.left) {
         next();
+    } else if (args.direction === SwipeDirection.right) {
+        previous();
     }
 }
 
@@ -122,7 +125,7 @@ export function flag(): void {
 }
 
 function showBannerAd(): void {
-    if (!loaded) {
+    if (AdService.getInstance().showAd && (!loaded || (banner && banner.height === "auto"))) {
         AdService.getInstance().showSmartBanner().then(
             () => {
                 loaded = true;

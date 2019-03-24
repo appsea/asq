@@ -7,7 +7,7 @@ export function onDrawerButtonTap(args: EventData) {
     QuestionViewModel.showDrawer();
 }
 
-export function onPageLoaded(args:EventData) {
+export function onPageLoaded(args: EventData) {
     if (!QuestionService.getInstance().hasQuestions()) {
         QuestionService.getInstance().checkQuestionUpdate();
     }

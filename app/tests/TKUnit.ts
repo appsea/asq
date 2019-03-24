@@ -9,7 +9,7 @@
  6. (if exists) at the end of module test tearDownModule() module function is called
 
 */
-import * as appSettings from "application-settings";
+import * as appSettings from "tns-core-modules/application-settings";
 import * as Application from "tns-core-modules/application";
 import * as timer from "tns-core-modules/timer";
 import * as trace from "tns-core-modules/trace";

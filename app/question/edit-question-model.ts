@@ -1,8 +1,8 @@
 import * as Toast from "nativescript-toast";
 import { EventData, Observable } from "tns-core-modules/data/observable";
 import { QuestionService } from "~/services/question.service";
+import { QuestionUtil } from "~/services/question.util";
 import { IOption, IQuestion, IState } from "~/shared/questions.model";
-import {QuestionUtil} from "~/services/question.util";
 
 export class EditQuestionViewModel extends Observable {
 
@@ -34,7 +34,7 @@ export class EditQuestionViewModel extends Observable {
                     if (QuestionUtil.isOptionUpdated(this._question)) {
                         QuestionService.getInstance().updateCorrectOption(this._question);
                     } else if (this._question.description !== this._originalQuestion.description || this._question.explanation !== this._originalQuestion.explanation) {
-                        if (this._question.description !== this._originalQuestion.description && this._question.explanation !== this._originalQuestion.explanation){
+                        if (this._question.description !== this._originalQuestion.description && this._question.explanation !== this._originalQuestion.explanation) {
                             this._question.suggestionHint = "Both Updated";
                         } else if (this._question.description !== this._originalQuestion.description) {
                             this._question.suggestionHint = "Question Updated";

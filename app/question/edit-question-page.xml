@@ -38,13 +38,11 @@
                     <Repeater.itemTemplate>
                         <GridLayout columns="auto,*" class="{{ selected ? 'selected m-y-5': 'not-selected m-y-5' }}">
                             <Label col="0" text="{{ tag + '. ' }}"
-                                   class="{{ selected ? 'selected': 'not-selected' }}"
-                                   textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
-                                   onswipe="handleSwipe"/>
+                                   class="{{ selected ? 'selected m-y-10': 'not-selected m-y-10' }}"
+                                   textWrap="true" tap="selectOption"/>
                             <Label col="1" text="{{ description }}"
-                                   class="{{ selected ? 'selected': 'not-selected' }}"
-                                   textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
-                                   onswipe="handleSwipe"/>
+                                   class="{{ selected ? 'selected m-y-10': 'not-selected m-y-10' }}"
+                                   textWrap="true" tap="selectOption"/>
                         </GridLayout>
                     </Repeater.itemTemplate>
                 </Repeater>

@@ -1,4 +1,3 @@
-import * as appSettings from "application-settings";
 import {
     AD_SIZE,
     createBanner,
@@ -7,9 +6,9 @@ import {
     preloadInterstitial,
     showInterstitial
 } from "nativescript-admob";
-import { screen } from "platform";
 import { Observable } from "tns-core-modules/data/observable";
-import { isIOS } from "tns-core-modules/platform";
+import { isIOS, screen } from "tns-core-modules/platform";
+import { PersistenceService } from "~/services/persistence.service";
 import * as constantsModule from "../shared/constants";
 import { HttpService } from "./http.service";
 
@@ -23,7 +22,7 @@ export class AdService {
         this._showAd = showAd;
     }
 
-    static _testing = true;
+    static _testing = false;
 
     static getInstance(): AdService {
         return AdService._instance;
@@ -34,12 +33,11 @@ export class AdService {
 
     constructor() {
         this._showAd = true;
-        if (!appSettings.hasKey(constantsModule.PREMIUM)) {
+        if (!PersistenceService.getInstance().isPremium()) {
             HttpService.getInstance().showAds().then((show) => {
                 this._showAd = show === "true";
             });
         } else {
-
             this._showAd = false;
         }
     }

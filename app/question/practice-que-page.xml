@@ -55,30 +55,28 @@
             </StackLayout>
         </StackLayout>
         <ScrollView id="scrollView" onswipe="handleSwipe" scrollBarIndicatorVisible="true">
-            <StackLayout class="margin" onswipe="handleSwipe">
-                <Label text="{{ question.description }}" textWrap="true" onswipe="handleSwipe"/>
-                <Repeater items="{{ options }}" row="1" id="optionList" onswipe="handleSwipe" class="m-t-10">
+            <StackLayout class="margin">
+                <Label text="{{ question.description }}" textWrap="true"/>
+                <Repeater items="{{ options }}" row="1" id="optionList" class="m-t-10">
                     <Repeater.itemTemplate>
                         <GridLayout columns="auto,*" class="{{ (show && correct)? 'correct m-y-5' : (show && selected && !correct)? 'incorrect m-y-5': 'not-selected m-y-5' }}">
                             <Label col="0" text="{{ tag + '. ' }}"
-                                   class="{{ (show && correct)? 'correct m-l-2' : (show && selected && !correct)? 'incorrect m-l-2': 'not-selected m-l-2' }}"
-                                   textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
-                                   onswipe="handleSwipe"/>
+                                   class="{{ (show && correct)? 'correct m-l-2 m-y-10' : (show && selected && !correct)? 'incorrect m-l-2 m-y-10': 'not-selected m-l-2 m-y-10' }}"
+                                   textWrap="true" tap="selectOption"/>
                             <Label col="1" text="{{ description }}"
-                                   class="{{ (show && correct)? 'correct' : (show && selected && !correct)? 'incorrect': 'not-selected' }}"
-                                   textWrap="true" marginTop="10dpi" marginBottom="10dpi" tap="selectOption"
-                                   onswipe="handleSwipe"/>
+                                   class="{{ (show && correct)? 'correct m-y-10' : (show && selected && !correct)? 'incorrect m-y-10': 'not-selected m-y-10' }}"
+                                   textWrap="true" tap="selectOption"/>
                         </GridLayout>
                     </Repeater.itemTemplate>
                 </Repeater>
                 <Label id="explanationHeader" text="Explanation: " marginTop="20dpi"
                        visibility="{{ question && question.show ? 'visible' : 'collapsed' }}" style="font-weight: bold"
-                       textWrap="true" onswipe="handleSwipe"/>
+                       textWrap="true"/>
                 <Label id="explanation" text="{{ question && question.explanation}}" marginBottom="5dpi" textWrap="true"
-                       onswipe="handleSwipe" visibility="{{ question.show ? 'visible' : 'collapsed' }}"/>
+                       visibility="{{ question.show ? 'visible' : 'collapsed' }}"/>
                 <Label id="defaultExplanation"
                        text="Explanation Coming Soon. Feel free to update it yourself by clicking on following button:)"
-                       marginBottom="5dpi" textWrap="true" onswipe="handleSwipe"
+                       marginBottom="5dpi" textWrap="true"
                        visibility="{{ question && question.show && !question.explanation ? 'visible' : 'collapsed' }}"/>
                 <Button id="suggestionButton" text="Improve Question" class="btn btn-primary" tap="goToEditPage"
                         visibility="{{ question && question.show ? 'visible' : 'collapsed' }}"/>
