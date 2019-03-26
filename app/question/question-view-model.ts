@@ -78,21 +78,22 @@ export class QuestionViewModel extends Observable {
         this._settingsService = SettingsService.getInstance();
         this._state = this._settingsService.readCache(mode);
         this._mode = mode;
-        this.count = this._state.questions.length - 1;
+        this.count = this._state.questionNumber;
         this.showFromState();
     }
 
     showInterstitial(): any {
-        if (AdService.getInstance().showAd && this.count > 0
+        if (AdService.getInstance().showAd && this.count > 1
             && (this.questionNumber - 1) % constantsModule.AD_COUNT === 0
-            && ((this.count % constantsModule.AD_COUNT) === 0)) {
+            && (((this.count - 1) % constantsModule.AD_COUNT) === 0)) {
             AdService.getInstance().showInterstitial();
         }
     }
 
     get showAdOnNext(): boolean {
-        return !QuestionViewModel._errorLoading && this.questionNumber % constantsModule.AD_COUNT === 0
-            && AdService.getInstance().showAd && (((this.count + 1) % constantsModule.AD_COUNT) === 0);
+        return !QuestionViewModel._errorLoading && AdService.getInstance().showAd
+            && this.questionNumber % constantsModule.AD_COUNT === 0
+            && this.count % constantsModule.AD_COUNT === 0;
     }
 
     previous(): void {
