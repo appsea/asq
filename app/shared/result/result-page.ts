@@ -10,6 +10,7 @@ import { QuestionViewModel } from "~/question/question-view-model";
 import * as navigationModule from "../navigation";
 import { IState } from "../questions.model";
 import { ResultViewModel } from "./result-view-model";
+import {AdService} from "~/services/ad.service";
 
 let page: Page;
 let state: IState;
@@ -23,6 +24,7 @@ export function onPageLoaded(args: EventData): void {
     if (pg != null && !pg.hasListeners(AndroidApplication.activityBackPressedEvent)) {
         pg.on(AndroidApplication.activityBackPressedEvent, onActivityBackPressedEvent, this);
     }
+    AdService.getInstance().hideAd();
 }
 
 export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {

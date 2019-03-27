@@ -139,7 +139,7 @@ export function flag(): void {
 }
 
 function showBannerAd() {
-    if (AdService.getInstance().showAd && (!loaded || (banner && banner.height === "auto"))) {
+    if (vm.length > 0 && AdService.getInstance().showAd && (!loaded || (banner && banner.height === "auto"))) {
         AdService.getInstance().showSmartBanner().then(
             () => {
                 loaded = true;

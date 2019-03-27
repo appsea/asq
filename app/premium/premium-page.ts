@@ -16,23 +16,10 @@ import { AdService } from "~/services/ad.service";
 import { QuestionService } from "~/services/question.service";
 import { SelectedPageService } from "~/shared/selected-page-service";
 import * as constantsModule from "../shared/constants";
-import * as navigationModule from "../shared/navigation";
 import { PremiumModel } from "./premium-model";
 
 let vm: PremiumModel;
 let showDialog: boolean = true;
-export function onPageLoaded(args: EventData): void {
-    if (!isAndroid) {
-        return;
-    }
-    const page = args.object;
-    page.on(AndroidApplication.activityBackPressedEvent, onActivityBackPressedEvent, this);
-}
-
-export function onActivityBackPressedEvent(args: AndroidActivityBackPressedEventData) {
-    navigationModule.goBack();
-    args.cancel = true;
-}
 
 export function onNavigatingTo(args: NavigatedData) {
     /* ***********************************************************
@@ -56,6 +43,7 @@ export function onNavigatingTo(args: NavigatedData) {
             }
         }
     });
+    AdService.getInstance().hideAd();
 }
 
 export function onDrawerButtonTap(args: EventData) {
