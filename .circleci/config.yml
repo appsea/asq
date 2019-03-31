@@ -51,7 +51,5 @@ jobs:
       - run: echo yes | tns setup
       - run: echo yes | tns cloud setup
       - run: echo yes | tns doctor
-      - run: mkdir $HOME/.gradle
-      - run: cp app/App_Resources/Android/gradle.properties $HOME/.gradle/
-      - run: echo -n $'\031' | tns build android --env.snapshot --env.uglify --release --key-store-path $KEYSTORE --key-store-password $KEYSTORE_PASSWORD --key-store-alias sasquiz --key-store-alias-password $KEYSTORE_PASSWORD --copy-to asas.apk
+      - run: echo -n $'\031' | tns build android --env.snapshot --env.uglify --release --bundle --key-store-path $KEYSTORE --key-store-password $KEYSTORE_PASSWORD --key-store-alias sasquiz --key-store-alias-password $KEYSTORE_PASSWORD --copy-to asas.apk
       - run: java -jar release-manager-1.0.jar -key "key.json" -apk "asas.apk" -track "internal" -name "myApp" -notes "new release"
