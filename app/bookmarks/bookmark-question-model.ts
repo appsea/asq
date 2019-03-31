@@ -48,11 +48,13 @@ export class BookmarkQuestionModel extends Observable {
     private _questionNumber: number = 0;
 
     private _mode: string;
+    private _message: string;
 
-    constructor(questions: Array<IQuestion>, mode: string) {
+    constructor(questions: Array<IQuestion>, mode: string, message: string) {
         super();
         this._questions = questions;
         this._mode = mode;
+        this._message = message;
         this.count = 0;
     }
 
@@ -76,12 +78,12 @@ export class BookmarkQuestionModel extends Observable {
     previous(): void {
         if (this._questionNumber > 1) {
             this._questionNumber = this._questionNumber - 1;
-            this._question = this._questions[this._questionNumber];
+            this._question = this._questions[this._questionNumber - 1];
             this.publish();
         }
     }
 
-    next(message: string): void {
+    next(): void {
         if (this._questions.length > this._questionNumber) {
             this._question = this._questions[this._questionNumber];
             this._questionNumber = this._questionNumber + 1;
@@ -89,7 +91,7 @@ export class BookmarkQuestionModel extends Observable {
             this.publish();
             this.showInterstitial();
         } else {
-            dialogs.confirm(message).then((proceed) => {
+            dialogs.confirm(this._message).then((proceed) => {
                 if (proceed || this.length < 1) {
                     navigationModule.toPage("question/practice-page");
                 }
