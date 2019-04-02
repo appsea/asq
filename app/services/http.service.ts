@@ -1,7 +1,7 @@
+import { AES, enc } from "crypto-js";
 import { Observable } from "tns-core-modules/data/observable";
 import * as httpModule from "tns-core-modules/http";
-import { IQuestion } from "~/shared/questions.model";
-import * as constantsModule from "../shared/constants";
+import { GUPIT, MONICA } from "~/shared/constants";
 
 export class HttpService {
 
@@ -11,44 +11,45 @@ export class HttpService {
 
     private static _instance: HttpService = new HttpService();
 
-    private questions: Array<IQuestion> = [];
+    private static url: string;
 
     private constructor() {
-
+        const bytes  = AES.decrypt(MONICA, GUPIT);
+        HttpService.url = bytes.toString(enc.Utf8);
     }
 
     showAds(): Promise<string> {
-        const url = constantsModule.FIREBASE_URL + "ads.json";
+        const url = HttpService.url + "ads.json";
 
         return httpModule.getString(url);
     }
 
     getQuestions<T>(): Promise<T> {
-        const url = constantsModule.FIREBASE_URL + "questions.json";
+        const url = HttpService.url + "questions.json";
 
         return httpModule.getJSON(url);
     }
 
     getPremiumQuestions<T>(): Promise<T> {
-        const url = constantsModule.FIREBASE_URL + "premium.json";
+        const url = HttpService.url + "premium.json";
 
         return httpModule.getJSON(url);
     }
 
     findLatestQuestionVersion(): Promise<string> {
-        const url = constantsModule.FIREBASE_URL + "questionVersion.json";
+        const url = HttpService.url + "questionVersion.json";
 
         return httpModule.getString(url);
     }
 
     findPremiumQuestionVersion(): Promise<string> {
-        const url = constantsModule.FIREBASE_URL + "premiumVersion.json";
+        const url = HttpService.url + "premiumVersion.json";
 
         return httpModule.getString(url);
     }
 
     findPremiumRange<T>(orderBy: string, startAt: number, endAt: number): Promise<T> {
-        const url = constantsModule.FIREBASE_URL + "premium.json" + "?orderBy=\"" + orderBy
+        const url = HttpService.url + "premium.json" + "?orderBy=\"" + orderBy
             + "\"&startAt=" + startAt + "&endAt=" + endAt;
         console.log("url::", url);
 
@@ -56,20 +57,20 @@ export class HttpService {
     }
 
     checkPlayStoreVersion(): Promise<string> {
-        const url = constantsModule.FIREBASE_URL + "playStoreVersion.json";
+        const url = HttpService.url + "playStoreVersion.json";
 
         return httpModule.getString(url);
     }
 
     checkTotalQuestions(): Promise<string> {
-        const url = constantsModule.FIREBASE_URL + "totalQuestions.json";
+        const url = HttpService.url + "totalQuestions.json";
 
         return httpModule.getString(url);
     }
 
-    httpPost(url: string, data: any) {
+    httpPost(postfix: string, data: any) {
         httpModule.request({
-            url,
+            url: HttpService.url + postfix,
             method: "POST",
             headers: { "Content-Type": "application/json" },
             content: JSON.stringify(data)

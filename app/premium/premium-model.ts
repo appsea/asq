@@ -40,7 +40,7 @@ export class PremiumModel extends Observable {
         try {
             purchase.restorePurchases();
         } catch (error) {
-            GeneralService.getInstance().logError(error);
+            console.error(error);
         }
     }
 
@@ -51,8 +51,6 @@ export class PremiumModel extends Observable {
             if (error.message.includes("Product already purchased")) {
                 this.grantRights();
                 dialogs.alert("You are a premium user now! You wont be charged twice as you've already paid earlier!");
-            } else {
-                GeneralService.getInstance().logError(error);
             }
         }
     }

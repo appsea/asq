@@ -1,4 +1,5 @@
-export const FIREBASE_URL = "https://advance-sas.firebaseio.com/";
+export const MONICA = "U2FsdGVkX19N9NVroWG23cHr8BnWE+xqWpPDj5QsIs9MwQ4KzaLrLMuF/a8YX09FnHsWpoaibEqj0Z+hEfFtxg==";
+export const GUPIT = "advancesas";
 export const INTERSTITIAL_AD_ID = "ca-app-pub-9082814869788754/2619741367";
 export const BANNER_AD_ID = "ca-app-pub-9082814869788754/3753693786";
 export const REWARD_AD_ID = "ca-app-pub-9082814869788754/1020272169";
