@@ -3,7 +3,6 @@ import * as appSettings from "tns-core-modules/application-settings";
 import { EventData, Observable } from "tns-core-modules/data/observable";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { AdService } from "~/services/ad.service";
-import { GeneralService } from "~/services/general.service";
 import { QuestionService } from "~/services/question.service";
 import * as constantsModule from "../shared/constants";
 
