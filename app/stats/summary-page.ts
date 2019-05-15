@@ -41,7 +41,7 @@ export function onNavigatingTo(args: NavigatedData) {
     SelectedPageService.getInstance().updateSelectedPage("stats");
     setTimeout(() => {
         {
-            QuestionService.getInstance().readAllQuestions().then(() => {
+            QuestionService.getInstance().readAllQuestions(-1).then(() => {
                 vm.calculate();
             });
         }
