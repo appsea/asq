@@ -70,7 +70,7 @@ export class PremiumModel extends Observable {
         AdService.getInstance().showAd = false;
         this._premium = true;
         this.publish();
-        QuestionService.getInstance().readAllQuestions(-1);
+        QuestionService.getInstance().readAllQuestions();
     }
 
     private publish() {

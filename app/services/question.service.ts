@@ -25,7 +25,7 @@ export class QuestionService {
     private static _instance: QuestionService = new QuestionService();
 
     private questions: Array<IQuestion> = [];
-    private _checked: boolean = true;
+    private _checked: boolean = false;
 
     getNextQuestion(): Promise<IQuestion> {
         return this.getFirebaseQuestion();
@@ -91,7 +91,7 @@ export class QuestionService {
                 if (!ConnectionService.getInstance().isConnected()) {
                     dialogs.alert("Please connect to internet so that we can prepare quality questions for you!!");
                 } else {
-                    this.readAllQuestions(-1);
+                    this.readAllQuestions();
                 }
             }
         }
@@ -103,7 +103,7 @@ export class QuestionService {
         return this.containsQuestion(question, PersistenceService.getInstance().readFlaggedQuestions());
     }
 
-    readAllQuestions(latestQuestionVersion): Promise<void> {
+    readAllQuestions(): Promise<void> {
 
         return HttpService.getInstance().getQuestions<Array<IQuestion>>().then((questions: Array<IQuestion>) => {
             const oldQuestionSize: number = this.readQuestionSize();
@@ -115,12 +115,9 @@ export class QuestionService {
                         const updatedQuestions: Array<IQuestion> = questions.concat(premiumQuestions);
                         this.saveQuestions(updatedQuestions);
                     });
-            } else if (latestQuestionVersion > 4) {
-                if (oldQuestionSize > questions.length) {
-                    return this.findPremiumRange(questions.length + 1, oldQuestionSize).
-                    then(() => console.log("Loaded Premium Range", questions.length + 1, oldQuestionSize),
-                        (error) => console.error("Error loading premium range", error));
-                }
+            } else if (oldQuestionSize > questions.length) {
+                return this.findPremiumRange(questions.length + 1, oldQuestionSize).then(() => console.log("Loaded Premium Range", questions.length + 1, oldQuestionSize),
+                    (error) => console.error("Error loading premium range", error));
             }
         });
     }
@@ -135,8 +132,8 @@ export class QuestionService {
                     this.saveQuestions(questions);
                     resolve();
                 }).catch((e) => {
-                   console.error("Error Loading Premium Range Questions...", e);
-                   reject(e);
+                console.error("Error Loading Premium Range Questions...", e);
+                reject(e);
             });
         });
     }
@@ -191,7 +188,7 @@ export class QuestionService {
         if (!this._checked) {
             HttpService.getInstance().findLatestQuestionVersion().then((latestQuestionVersion: string) => {
                 if (this.readQuestionVersion() < Number(latestQuestionVersion)) {
-                    this.readAllQuestions(Number(latestQuestionVersion));
+                    this.readAllQuestions();
                     this.saveQuestionVersion(Number(latestQuestionVersion));
                 }
             }).catch((err) => {

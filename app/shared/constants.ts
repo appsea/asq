@@ -3,6 +3,7 @@ export const GUPIT = "advancesas";
 export const INTERSTITIAL_AD_ID = "ca-app-pub-9082814869788754/2619741367";
 export const BANNER_AD_ID = "ca-app-pub-9082814869788754/3753693786";
 export const REWARD_AD_ID = "ca-app-pub-9082814869788754/1020272169";
+export const TOTAL_QUESTIONS = 262;
 export const PREMIUM = "PREMIUM";
 export const WRONG_QUESTION = "WRONG_QUESTION";
 export const FLAG_QUESTION = "FLAG_QUESTION";

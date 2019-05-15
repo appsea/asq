@@ -67,7 +67,7 @@ export class SummaryViewModel extends Observable {
     }
 
     get serverQuestionSize() {
-        return !isNaN(this._serverQuestionSize) ? this._serverQuestionSize : 261;
+        return !isNaN(this._serverQuestionSize) ? this._serverQuestionSize : constantsModule.TOTAL_QUESTIONS;
     }
 
     get isPremium() {
@@ -97,7 +97,7 @@ export class SummaryViewModel extends Observable {
     private _mock: IResult;
     private _practiceAccuracy: number;
     private _practiceCoverage: number;
-    private _serverQuestionSize: number = 261;
+    private _serverQuestionSize: number = constantsModule.TOTAL_QUESTIONS;
     private _questionSize: number = 150;
     private _rewards: number = 10;
     private _isPremium: boolean = false;
@@ -118,7 +118,7 @@ export class SummaryViewModel extends Observable {
         this.calculate();
         if (!this._checked && ConnectionService.getInstance().isConnected()) {
             HttpService.getInstance().checkTotalQuestions().then((st) => {
-                this._serverQuestionSize = !isNaN(Number(st)) ? Number(st) : 261;
+                this._serverQuestionSize = !isNaN(Number(st)) ? Number(st) : constantsModule.TOTAL_QUESTIONS;
                 this.calculate();
                 this._checked = true;
             });
