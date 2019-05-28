@@ -31,6 +31,12 @@ export class ResultViewModel extends Observable {
     get pass() {
         return this._result.pass;
     }
+
+    get result() {
+        return this._result;
+    }
+
+
     private _state: IState;
     private _result: IResult;
 
