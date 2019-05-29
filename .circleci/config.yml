@@ -46,6 +46,7 @@ jobs:
       - run: echo $JSON > key.json
       - run: npm install nativescript-dev-sass --save-dev
       - run: npm run tsc
+      - run: npm link webpack
       - run: echo yes | sudo npm install nativescript -g --unsafe-perm
       #- run: npm install
       - run: echo yes | tns setup
