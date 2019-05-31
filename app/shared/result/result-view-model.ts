@@ -36,7 +36,6 @@ export class ResultViewModel extends Observable {
         return this._result;
     }
 
-
     private _state: IState;
     private _result: IResult;
 
