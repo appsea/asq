@@ -122,7 +122,7 @@ export class QuestionViewModel extends Observable {
 
     flag(): void {
         this._questionService.handleFlagQuestion(this._question);
-        this.publish();
+        this.saveAndPublish(this._mode, this._state);
     }
 
     alreadyAsked(newQuestion: IQuestion): boolean {
@@ -190,6 +190,12 @@ export class QuestionViewModel extends Observable {
         this._settingsService.clearCache(this._mode);
         this._state.mode = this._mode;
         navigationModule.gotoResultPage(this._state);
+    }
+
+    showIfSelected() {
+        if (this.allOptionSelected()) {
+            this.showAnswer();
+        }
     }
 
     showAnswer(): void {
