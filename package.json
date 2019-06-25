@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
-    "nativescript-admob": "^3.3.2",
     "nativescript-appversion": "^1.4.1",
     "nativescript-grid-view": "^5.1.0",
     "nativescript-purchase": "^2.0.12",
