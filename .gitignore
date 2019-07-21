@@ -14,6 +14,8 @@ app/admob/*.js
 !ads-android.js
 !ads-ios.js
 !admob-common.js
+!app/nativescript-grid-view/*.js
+app/admob/ad.service.js
 
 # Logs
 logs
