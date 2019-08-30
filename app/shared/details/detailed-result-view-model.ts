@@ -1,4 +1,5 @@
 import { EventData, Observable, PropertyChangeData } from "tns-core-modules/data/observable";
+import { isIOS } from "tns-core-modules/platform";
 import { SearchBar } from "tns-core-modules/ui/search-bar";
 import { TextField } from "tns-core-modules/ui/text-field";
 import { QuestionUtil } from "~/services/question.util";
