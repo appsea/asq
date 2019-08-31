@@ -4,10 +4,6 @@ import { QuestionViewModel } from "~/question/question-view-model";
 import { QuestionService } from "~/services/question.service";
 import * as navigationModule from "../shared/navigation";
 
-export function onDrawerButtonTap(args: EventData) {
-    QuestionViewModel.showDrawer();
-}
-
 export function onPageLoaded(args: EventData) {
     AdService.getInstance().delayedPreloadInterstitial();
     if (QuestionService.getInstance().hasQuestions()) {
