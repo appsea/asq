@@ -21,20 +21,7 @@ export class QuestionViewModel extends Observable {
             this._question = {description: "", options: [], explanation: "", show: false};
         }
 
-        for (const option of this._question.options) {
-            if (option.description.startsWith("A.")) {
-                option.description = option.description.replace("A. ", "").trim();
-            }
-            if (option.description.startsWith("B.")) {
-                option.description = option.description.replace("B. ", "").trim();
-            }
-            if (option.description.startsWith("C.")) {
-                option.description = option.description.replace("C. ", "").trim();
-            }
-            if (option.description.startsWith("D.")) {
-                option.description = option.description.replace("D. ", "").trim();
-            }
-        }
+        QuestionUtil.removeOptionTagFromDescription(this._question);
 
         return this._question;
     }
