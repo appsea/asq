@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.3",
     "awesome-typescript-loader": "^5.2.1",
     "chai": "4.2.0",
     "karma": "4.1.0",
